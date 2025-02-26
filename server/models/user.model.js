@@ -3,6 +3,33 @@ const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema(
     {
+        firstName: {
+            type: String,
+            required: [true, "First Name required!"],
+        },
+        lastName: {
+            type: String,
+            required: [true, "Last Name required!"],
+        },
+        birthdate: {
+            type: Date,
+            required: [true, "Birthdate required!"],
+        },
+        phoneNumber: {
+            type: String,
+            required: [true, "Phone Number required!"],
+            validate: {
+                validator: val => /^\d{3}-\d{3}-\d{4}$/.test(val),
+                message: "Invalid Phone Number! (Format: xxx-xxx-xxxx)"
+            }
+        },
+        address1: {
+            type: String,
+            required: [true, "Address 1 required!"],
+        },
+        address2: {
+            type: String,
+        },
         email: {
             type: String,
             required: [true, "Email required!"],
