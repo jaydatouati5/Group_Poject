@@ -12,5 +12,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 require("./routes/user.route")(app);
-
+require('./routes/flower.route')(app);
+require('./routes/order.route')(app);
+require('./routes/admin.route')(app);
 app.listen(port, () => console.log(`Listening on port: ${port}`) )
