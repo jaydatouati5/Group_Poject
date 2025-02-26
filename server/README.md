@@ -13,7 +13,7 @@ The User model represents a registered user in the system.
 *   `firstName` (String, required): The first name of the user.
 *   `lastName` (String, required): The last name of the user.
 *   `birthdate` (Date, required): The birthdate of the user.
-*   `phoneNumber` (String, required): The phone number of the user (Format: xxx-xxx-xxxx).
+*   `phoneNumber` (String, required): The phone number of the user (Format: 8 digits).
 *   `address1` (String, required): The primary address of the user.
 *   `address2` (String, optional): The secondary address of the user.
 *   `email` (String, required): The email address of the user. Must be a valid email format.
@@ -62,76 +62,76 @@ The Order model represents an order placed by a user.
 
 ### User APIs
 
-*   **POST /api/register**: Registers a new user.
+*   `POST /api/register`: Registers a new user.
     *   **Request Body:** User object with all required attributes.
     *   **Response:** Success message and user object.
-*   **POST /api/login**: Logs in an existing user.
+*   `POST /api/login`: Logs in an existing user.
     *   **Request Body:** `email` and `password`.
     *   **Response:** Success message and user object with token.
-*   **GET /api/logout**: Logs out the current user. Requires authentication.
+*   `GET /api/logout`: Logs out the current user. Requires authentication.
     *   **Response:** Success message.
-*   **PUT /api/users/:id**: Updates an existing user. Requires authentication.
+*   `PUT /api/users/:id`: Updates an existing user. Requires authentication.
     *   **Request Body:** User object with updated attributes.
     *   **Response:** Updated user object.
-*    **GET /api/checkAuth**: Checks if the user is authenticated.
+*    `GET /api/checkAuth`: Checks if the user is authenticated.
     *   **Response:** verified status and user object.
 
 ### Admin APIs
 
-*   **POST /api/admin/register**: Registers a new admin.
+*   `POST /api/admin/register`: Registers a new admin.
     *   **Request Body:** Admin object with all required attributes.
     *   **Response:** Success message and admin object.
-*   **POST /api/admin/login**: Logs in an existing admin.
+*   `POST /api/admin/login`: Logs in an existing admin.
     *   **Request Body:** `email` and `password`.
     *   **Response:** Success message and admin object with token.
-*   **GET /api/admin/logout**: Logs out the current admin. Requires authentication.
+*   `GET /api/admin/logout`: Logs out the current admin. Requires authentication.
     *   **Response:** Success message.
-*   **PUT /api/admin/users/:id**: Updates an existing admin. Requires authentication.
+*   `PUT /api/admin/admins/:id`: Updates an existing admin. Requires authentication.
     *   **Request Body:** Admin object with updated attributes.
     *   **Response:** Updated admin object.
-*    **GET /api/admin/checkAuth**: Checks if the admin is authenticated.
+*    `GET /api/checkAuth`: Checks if the admin is authenticated.
     *   **Response:** verified status and admin object.
 
 ### Flower APIs
 
-*   **POST /api/flowers**: Creates a new flower. Requires authentication.
+*   `POST /api/flowers`: Creates a new flower. Requires authentication.
     *   **Request Body:** Flower object with all required attributes.
     *   **Response:** Created flower object.
-*   **GET /api/flowers**: Retrieves all flowers.
+*   `GET /api/flowers`: Retrieves all flowers.
     *   **Response:** Array of flower objects.
-*   **GET /api/flowers/:id**: Retrieves a specific flower by ID.
+*   `GET /api/flowers/:id`: Retrieves a specific flower by ID.
     *   **Response:** Flower object.
-*   **PUT /api/flowers/:id**: Updates an existing flower. Requires authentication.
+*   `PUT /api/flowers/:id`: Updates an existing flower. Requires authentication.
     *   **Request Body:** Flower object with updated attributes.
     *   **Response:** Updated flower object.
-*   **DELETE /api/flowers/:id**: Deletes a flower. Requires authentication.
+*   `DELETE /api/flowers/:id`: Deletes a flower. Requires authentication.
     *   **Response:** Success message.
-*   **POST /api/flowers/addToCart**: Adds a flower to the user's cart (creates or updates an order).
+*   `POST /api/flowers/addToCart`: Adds a flower to the user's cart (creates or updates an order).
     *   **Request Body:** `flowerId` and `quantity`.
     *   **Response:** Updated order object.
-*   **GET /api/flowers/popular**: Retrieves the most popular flower (most purchased).
+*   `GET /api/flowers/popular`: Retrieves the most popular flower (most purchased).
     *   **Response:** Flower object and quantity.
 
 ### Order APIs
 
-*   **POST /api/orders**: Creates a new order. Requires authentication.
+*   `POST /api/orders`: Creates a new order. Requires authentication.
     *   **Request Body:** Order object with all required attributes.
     *   **Response:** Created order object.
-*   **GET /api/orders**: Retrieves all orders for the authenticated user (or all orders for admin). Requires authentication.
+*   `GET /api/orders`: Retrieves all orders for the authenticated user (or all orders for admin). Requires authentication.
     *   **Response:** Array of order objects.
-*   **DELETE /api/orders/:id**: Deletes an order. Requires authentication.
+*   `DELETE /api/orders/:id`: Deletes an order. Requires authentication.
     *   **Response:** Success message.
-*   **POST /api/orders/decrease**: Decreases the quantity of a product in an order. Requires authentication.
+*   `POST /api/orders/decrease`: Decreases the quantity of a product in an order. Requires authentication.
     *   **Request Body:** `orderId`, `flowerId`, and `quantity`.
     *   **Response:** Updated order object.
-*   **POST /api/orders/increase**: Increases the quantity of a product in an order. Requires authentication.
+*   `POST /api/orders/increase`: Increases the quantity of a product in an order. Requires authentication.
     *   **Request Body:** `orderId`, `flowerId`, and `quantity`.
     *   **Response:** Updated order object.
-*   **PUT /api/orders/purchase/:id**: Purchases an order (sets status to Pending and updates product stock). Requires authentication.
+*   `PUT /api/orders/purchase/:id`: Purchases an order (sets status to Pending and updates product stock). Requires authentication.
     *   **Response:** Updated order object.
-*   **PUT /api/orders/cancel/:id**: Cancels an order (sets status to Canceled and replenishes product stock). Requires authentication.
+*   `PUT /api/orders/cancel/:id`: Cancels an order (sets status to Canceled and replenishes product stock). Requires authentication.
     *   **Response:** Updated order object.
-*   **PUT /api/orders/deliver/:id**: Delivers an order (sets status to Delivered). Requires authentication.
+*   `PUT /api/orders/deliver/:id`: Delivers an order (sets status to Delivered). Requires authentication.
     *   **Response:** Updated order object.
-*   **GET /api/orders/active**: Retrieves all active orders (status: Not Purchased). Requires authentication.
+*   `GET /api/orders/active`: Retrieves all active orders (status: Not Purchased). Requires authentication.
     *   **Response:** Array of order objects.

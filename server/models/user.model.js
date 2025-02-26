@@ -19,8 +19,8 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: [true, "Phone Number required!"],
             validate: {
-                validator: val => /^\d{3}-\d{3}-\d{4}$/.test(val),
-                message: "Invalid Phone Number! (Format: xxx-xxx-xxxx)"
+                validator: val => /^\d{8}$/.test(val),
+                message: "Invalid Phone Number! (Format: 8 digits)"
             }
         },
         address1: {
