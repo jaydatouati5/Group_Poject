@@ -33,6 +33,7 @@ module.exports.deleteFlower = (req, res) => {
 
 module.exports.addToCart = async (req, res) => {
     const { flowerId, quantity } = req.body;
+    console.log(req.user);
     const userId = req.user._id;
 
     try {

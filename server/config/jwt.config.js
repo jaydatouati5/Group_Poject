@@ -4,8 +4,10 @@ const User = require('../models/user.model');
 const Admin = require('../models/admin.model');
 
 module.exports.authenticate = (req, res, next) => {
+    console.log("We are here!")
   jwt.verify(req.cookies.usertoken, secretKey, async (err, payload) => {
     if (err) {
+        console.log("Error",err)
       jwt.verify(req.cookies.admintoken, secretKey, async (err, payload) => {
         if (err) {
           res.status(401).json({verified: false});
@@ -28,6 +30,7 @@ module.exports.authenticate = (req, res, next) => {
         if (!user) {
           return res.status(401).json({ verified: false });
         }
+        console.log(req.user)
         req.user = user;
         next();
       } catch (error) {
