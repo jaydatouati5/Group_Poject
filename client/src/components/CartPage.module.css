@@ -9,7 +9,7 @@
 
 .cartItem {
   display: flex;
-  flex-direction: row;
+  flex-direction: row!important;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
@@ -65,11 +65,15 @@
   align-items: flex-end;
 }
 
+/* Text to display the total of an order */
 .total {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: right;
   margin-top: 1.5rem;
   color: #333;
+  font-weight: 600; /* Slightly bolder */
+  letter-spacing: 0.5px; /* Add some spacing */
+  padding: 0.5rem 0; /* Add padding for better visual separation */
 }
 
 .purchaseButton {

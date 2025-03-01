@@ -59,6 +59,7 @@ const CartPage = ({ cartCount, setCartCount }) => {
       await axios.put(`http://localhost:5000/api/orders/purchase/${order._id}`, {}, { withCredentials: true });
       console.log("Order purchased successfully");
       setOrder(null);
+      setCartCount(0); // Reset cart count after purchase
     } catch (error) {
       console.error("Failed to purchase order:", error);
     }

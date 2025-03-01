@@ -4,6 +4,13 @@ const jwt = require('jsonwebtoken');
 
 const secretKey = process.env.SECRET_KEY;
 
+// Get one by id
+module.exports.getOne = (req, res) => {
+    User.findById(req.params.id)
+        .then(data => res.json(data))
+        .catch(err => res.status(400).json(err));
+}
+
 module.exports.register = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: req.body.email });
