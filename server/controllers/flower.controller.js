@@ -38,11 +38,11 @@ module.exports.addToCart = async (req, res) => {
 
     try {
         // Find an existing "Not Purchased" order for the user
-        let order = await Order.findOne({ status: 'Not Purchased', user: userId });
+        let order = await Order.findOne({ status: 'Not Purchased', user: userId }).populate('flowers.flowerId');
 
         if (order) {
             // Check if the flower already exists in the order
-            const existingFlower = order.flowers.find(item => item.flowerId.equals(flowerId));
+            const existingFlower = order.flowers.find(item => item.flowerId && item.flowerId.equals(flowerId));
 
             if (existingFlower) {
                 // Update the quantity if the flower already exists
@@ -53,8 +53,15 @@ module.exports.addToCart = async (req, res) => {
             }
 
             // Save the updated order
-            order.total = order.flowers.reduce((acc, item) => acc + (item.quantity * item.flowerId.price), 0);
-            await order.save();
+            let total = 0;
+            for (let item of order.flowers) {
+                const flower = await Flower.findById(item.flowerId);
+                if (flower) {
+                    total += item.quantity * flower.price;
+                }
+            }
+            order.total = total;
+            await order.save(); 
             res.json(order);
         } else {
             // Create a new order if no "Not Purchased" order exists

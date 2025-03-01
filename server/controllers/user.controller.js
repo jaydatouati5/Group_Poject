@@ -25,14 +25,14 @@ module.exports.login = async(req , res) => {
     const user = await User.findOne({email: req.body.email});
 
     if (user === null){
-        return res.status(400).json({msg: "Email not Found!"});
+        return res.status(400).json({email: "Email not Found!"});
     }
 
 
     const correctPassword = await bcrypt.compare(req.body.password , user.password);
 
     if (!correctPassword){
-        return res.status(400).json({msg: "Incorrect password!"});
+        return res.status(400).json({password: "Incorrect password!"});
     }
 
     const userToken = jwt.sign({id: user._id} , secretKey);

@@ -30,13 +30,13 @@ module.exports.deleteOrder = (req, res) => {
 module.exports.decreaseProductQuantity = async (req, res) => {
     try {
         const { orderId, flowerId, quantity } = req.body;
-        const order = await Order.findById(orderId);
+        const order = await Order.findById(orderId).populate('flowers.flowerId');
 
         if (!order) {
             return res.status(404).json({ message: "Order not found" });
         }
 
-        const flowerInOrder = order.flowers.find(item => item.flowerId.equals(flowerId));
+        const flowerInOrder = order.flowers.find(item => item.flowerId && item.flowerId.equals(flowerId));
 
         if (!flowerInOrder) {
             return res.status(404).json({ message: "Flower not found in order" });
@@ -52,7 +52,14 @@ module.exports.decreaseProductQuantity = async (req, res) => {
             order.flowers = order.flowers.filter(item => !item.flowerId.equals(flowerId));
         }
 
-        order.total = order.flowers.reduce((acc, item) => acc + (item.quantity * item.flowerId.price), 0);
+        let total = 0;
+        for (let item of order.flowers) {
+            const flower = await Flower.findById(item.flowerId);
+            if (flower) {
+                total += item.quantity * flower.price;
+            }
+        }
+        order.total = total;
 
         await order.save();
         res.json(order);
@@ -64,13 +71,13 @@ module.exports.decreaseProductQuantity = async (req, res) => {
 module.exports.increaseProductQuantity = async (req, res) => {
     try {
         const { orderId, flowerId, quantity } = req.body;
-        const order = await Order.findById(orderId);
+        const order = await Order.findById(orderId).populate('flowers.flowerId');
 
         if (!order) {
             return res.status(404).json({ message: "Order not found" });
         }
 
-        const flowerInOrder = order.flowers.find(item => item.flowerId.equals(flowerId));
+        const flowerInOrder = order.flowers.find(item => item.flowerId && item.flowerId.equals(flowerId));
 
         if (!flowerInOrder) {
             return res.status(404).json({ message: "Flower not found in order" });
@@ -78,7 +85,14 @@ module.exports.increaseProductQuantity = async (req, res) => {
 
         flowerInOrder.quantity += quantity;
 
-        order.total = order.flowers.reduce((acc, item) => acc + (item.quantity * item.flowerId.price), 0);
+        let total = 0;
+        for (let item of order.flowers) {
+            const flower = await Flower.findById(item.flowerId);
+            if (flower) {
+                total += item.quantity * flower.price;
+            }
+        }
+        order.total = total;
 
         await order.save();
         res.json(order);
