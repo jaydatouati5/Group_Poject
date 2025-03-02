@@ -4,7 +4,7 @@ const User = require('../models/user.model');
 const Admin = require('../models/admin.model');
 
 module.exports.authenticate = (req, res, next) => {
-    console.log("We are here!")
+  console.log(req.url)
   jwt.verify(req.cookies.usertoken, secretKey, async (err, payload) => {
     if (err) {
         console.log("Error",err)
@@ -27,13 +27,16 @@ module.exports.authenticate = (req, res, next) => {
     } else {
       try {
         const user = await User.findById(payload.id);
+        console.log(user.firstName , user.lastName) 
         if (!user) {
           return res.status(401).json({ verified: false });
         }
-        console.log(req.user)
+        // console.log(req.user)
         req.user = user;
         next();
+        console.log("went to next")
       } catch (error) {
+        console.log(error )
         return res.status(400).json({ verified: false });
       }
     }

@@ -11,4 +11,5 @@ module.exports = function(app){
     app.put('/api/orders/cancel/:id', authenticate, OrderController.cancelOrder);
     app.put('/api/orders/deliver/:id', authenticate, OrderController.deliverOrder);
     app.get('/api/orders/active', authenticate, OrderController.getAllActiveOrders);
+    app.get('/api/orders/:id', authenticate, OrderController.getOrderById); // New route
 }

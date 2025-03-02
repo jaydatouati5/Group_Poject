@@ -6,10 +6,14 @@ import styles from './AccountPage.module.css';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import { useNavigate } from 'react-router-dom';
 
 const AccountPage = ({ cartCount, setCartCount }) => {
   const [user, setUser] = useState(null);
   const [orders, setOrders] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -35,6 +39,20 @@ const AccountPage = ({ cartCount, setCartCount }) => {
     fetchUserData();
     fetchOrders();
   }, []);
+
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/orders/${orderId}`, { withCredentials: true });
+      setOrders(orders.filter(order => order._id !== orderId));
+      console.log("Order deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+    }
+  };
+
+  const handleEditOrder = (orderId) => {
+    navigate(`/orders/${orderId}/edit`);
+  };
 
   return (
     <>
@@ -68,7 +86,10 @@ const AccountPage = ({ cartCount, setCartCount }) => {
                   <td>{order._id}</td>
                   <td>${order.total}</td>
                   <td>{order.status}</td>
-                  <td>View Details</td>
+                  <td>
+                    <Button size="sm" onClick={() => handleEditOrder(order._id)}>Edit</Button>
+                    <Button size="sm" color="danger" onClick={() => handleDeleteOrder(order._id)}>Delete</Button>
+                  </td>
                 </tr>
               ))}
             </tbody>

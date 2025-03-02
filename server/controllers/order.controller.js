@@ -21,6 +21,13 @@ module.exports.getAllOrders = (req, res) => {
         .catch(err => res.status(400).json(err));
 }
 
+module.exports.getOrderById = (req, res) => {
+    Order.findById(req.params.id)
+        .populate('flowers.flowerId')
+        .then(order => res.json(order))
+        .catch(err => res.status(400).json(err));
+};
+
 module.exports.deleteOrder = (req, res) => {
     Order.findByIdAndDelete(req.params.id)
         .then(result => res.json({ result: "Order deleted successfully" }))
@@ -186,6 +193,7 @@ module.exports.deliverOrder = async (req, res) => {
 };
 
 module.exports.getAllActiveOrders = async (req, res) => {
+    console.log(req);
     try {
         const { start_date, end_date } = req.query;
         let query = { status: 'Not Purchased' };
@@ -199,8 +207,10 @@ module.exports.getAllActiveOrders = async (req, res) => {
 
         const orders = await Order.find(query)
             .populate('flowers.flowerId');
+        console.log("Orders : ",orders);
         res.json(orders);
     } catch (err) {
+        console.error("Error in getAllActiveOrders:", err);
         res.status(400).json(err);
     }
 };

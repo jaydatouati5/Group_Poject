@@ -5,6 +5,7 @@ import axios from 'axios';
 import StorePage from './components/StorePage';
 import CartPage from './components/CartPage';
 import AccountPage from './components/AccountPage';
+import EditOrderPage from './components/EditOrderPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -37,6 +38,7 @@ function App() {
         <Route path="/auth" element={<AuthForm isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
         <Route path="/cart" element={<CartPage cartCount={cartCount} setCartCount={setCartCount} />} />
         <Route path="/account" element={<AccountPage cartCount={cartCount} setCartCount={setCartCount} />} />
+        <Route path="/orders/:orderId/edit" element={<EditOrderPage cartCount={cartCount} setCartCount={setCartCount} />} />
       </Routes>
     </>
   );
